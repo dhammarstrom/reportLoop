@@ -1,0 +1,31 @@
+---
+title: "Report example"
+date: "19 april 2015"
+output: pdf_document
+fontsize: 11pt
+geometry: margin=1in
+---
+
+# Example report
+
+```{r loadData, echo=TRUE}
+# This is a code chunk, in an actual report this would be hidden with
+# the 'echo=FALSE' command.
+load("reportData.rda")
+```
+
+This in an example report for `r reportData$participant`. Your values where `r round(reportData$test1, 1)` and `r round(reportData$test2, 1)`. You where in the `r reportData$factor` group. Your number can be seen in the graph below 
+
+```{r plot, echo=FALSE, warning=FALSE, message=FALSE, fig.height=2, fig.width=4}
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+reportData%>%
+  gather(timepoint, value, test1:test2)%>%
+  ggplot(aes(timepoint, value, group=participant))+
+  geom_point()+geom_line()
+```
+
+
